@@ -1,0 +1,11 @@
+{
+  "name": "angular-test",
+  "version": "0.0.1",
+  "description": "Test task",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Novikov S.",
+  "license": "ISC"
+}
