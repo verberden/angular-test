@@ -19,6 +19,7 @@ module.exports = {
       //загрузчик для ts
       {
         test: /\.ts$/, // определяем тип файлов
+        exclude: [/node_modules/],
         use: [
           {
             loader: 'awesome-typescript-loader',

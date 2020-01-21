@@ -17,11 +17,11 @@ export class AuthenticationService {
     const storageUser = JSON.parse(localStorage.getItem('currentUser'));
     this.currentUserSubject = new BehaviorSubject<User>(storageUser);
     this.currentUser = this.currentUserSubject.asObservable();
-    if (storageUser.id == 1)  {
-      this.currentUserIsAdminSubject = new BehaviorSubject<boolean>(true)
-    } else {
-      this.currentUserIsAdminSubject = new BehaviorSubject<boolean>(false)
+    let state: boolean = false;
+    if (storageUser && storageUser.id == 1)  {
+      state = true;
     }
+    this.currentUserIsAdminSubject = new BehaviorSubject<boolean>(state);
     this.currenUserIsAdmin = this.currentUserIsAdminSubject.asObservable();
   }
 
@@ -35,7 +35,7 @@ export class AuthenticationService {
       .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser', JSON.stringify(user));
-        if (user.id == 1) this.currentUserIsAdminSubject.next(true);
+        if (user && user.id == 1) this.currentUserIsAdminSubject.next(true);
         this.currentUserSubject.next(user);
         return user;
       }));
