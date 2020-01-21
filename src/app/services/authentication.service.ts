@@ -9,11 +9,20 @@ import { User } from '../models';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
+  private currentUserIsAdminSubject: BehaviorSubject<boolean>;
   public currentUser: Observable<User>;
+  public currenUserIsAdmin: Observable<boolean>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    const storageUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.currentUserSubject = new BehaviorSubject<User>(storageUser);
     this.currentUser = this.currentUserSubject.asObservable();
+    if (storageUser.id == 1)  {
+      this.currentUserIsAdminSubject = new BehaviorSubject<boolean>(true)
+    } else {
+      this.currentUserIsAdminSubject = new BehaviorSubject<boolean>(false)
+    }
+    this.currenUserIsAdmin = this.currentUserIsAdminSubject.asObservable();
   }
 
   public get currentUserValue(): User {
@@ -21,10 +30,12 @@ export class AuthenticationService {
   }
 
   login(login: string, password: string) {
+    console.log(login, password);
     return this.http.post<any>(`${environment.apiUrl}/api/authenticate`, { login, password })
       .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser', JSON.stringify(user));
+        if (user.id == 1) this.currentUserIsAdminSubject.next(true);
         this.currentUserSubject.next(user);
         return user;
       }));
@@ -33,6 +44,7 @@ export class AuthenticationService {
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
+    this.currentUserIsAdminSubject.next(false);
     this.currentUserSubject.next(null);
   }
 }

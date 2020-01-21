@@ -8,7 +8,6 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const libs = require('./libs');
 const config = require('./config');
-const formidable = require('express-formidable');
 
 const env = process.env.NODE_ENV === undefined ? 'development' : process.env.NODE_ENV;
 app.set('views', path.join(__dirname, 'web', 'views'));
@@ -18,7 +17,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
-app.use(formidable());
 
 const dbs = libs.db({ env, config: config.db });
 
@@ -31,7 +29,6 @@ const apiControllers = require('./api/controllers')({
     models: apiModels,
 });
 // api routes
-console.log(apiControllers);
 app.use('/api', libs.jwt(config.common));
 app.use('/api', require('./api/router')(router, apiModels, apiUserService, apiControllers));
 app.use('/client', require('./client/router')(router));

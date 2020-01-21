@@ -18,6 +18,10 @@ module.exports = {
       allowNull: false,
       type: Sequelize.STRING,
     },
+    hash: {
+      allowNull: false,
+      type: Sequelize.STRING,
+    },
     data: {
       allowNull: false,
       type: Sequelize.BLOB('long'),

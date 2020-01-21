@@ -4,6 +4,7 @@ module.exports = ({ dbs: { mainDb: mainDb, Sequelize } }) => {
     {
       login: Sequelize.STRING,
       password: Sequelize.STRING,
+      salt: Sequelize.STRING,
     },
     {
       tableName: 'users',
