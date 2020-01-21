@@ -7,7 +7,7 @@ module.exports = {
     app: './src/main.ts'
   },
   output: {
-    path: path.resolve(__dirname, './public'), // путь к каталогу выходных файлов - папка public
+    path: path.resolve(__dirname, './public', 'js'), // путь к каталогу выходных файлов - папка public
     publicPath: '/public/',
     filename: '[name].js' // название создаваемого файла
   },
@@ -30,6 +30,9 @@ module.exports = {
         ]
       }
     ]
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   plugins: [
     new webpack.ContextReplacementPlugin(

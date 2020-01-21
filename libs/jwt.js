@@ -7,7 +7,10 @@ function jwt(config) {
   return expressJwt({ secret }).unless({
     path: [
         // public routes that don't require authentication
-        '/api/authenticate'
+        '/api/authenticate',
+        '/client',
+        '/js',
+        '/css'
     ]
   });
 }

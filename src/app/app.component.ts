@@ -15,6 +15,7 @@ class Item {
 @Component({
   selector: 'purchase-app',
   template: `
+    <router-outlet></router-outlet>
     <div class="page-header">
       <h1>Список покупок</h1>
     </div>
