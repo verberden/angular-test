@@ -1,21 +1,31 @@
-import { NgModule } from '@angular/core'
-import { BrowserModule } from '@angular/platform-browser'
-import { FormsModule } from '@angular/forms'
-import { AppComponent } from './app.component'
-import { LoginComponent }   from './login.component';
-import { HomeComponent }   from './home.component';
-import { NotFoundComponent }   from './not-found.component';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-const appRoutes: Routes =[
-  { path: '', component: HomeComponent},
-  { path: 'login', component: LoginComponent},
-  { path: '**', component: NotFoundComponent }
-];
+import { AppComponent } from './app.component';
+import { appRoutingModule } from './app.routing';
+
+import { JwtInterceptor, ErrorInterceptor } from './libs';
+import { HomeComponent } from './home';
+import { LoginComponent } from './login';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes)],
-  declarations: [AppComponent, HomeComponent, LoginComponent, NotFoundComponent],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        appRoutingModule
+    ],
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        LoginComponent
+    ],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    ],
+    bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
