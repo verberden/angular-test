@@ -1,0 +1,21 @@
+<div class="card mt-4">
+  <h4 class="card-header">Hello, {{user.login}}!</h4>
+  <div class="form-group">
+    <label for="file">Choose File</label>
+    <input type="file"
+           id="file"
+           multiple
+           (change)="handleFileInput($event.target.files)">
+  </div>
+  <div class="card-body">
+      <h6>Your uploaded files</h6>
+      <ng-template [ngIf]="loading">
+        <div class="spinner-border spinner-border-sm"></div>
+      </ng-template>
+      <ng-template [ngIf]="files">
+        <ul>
+          <li *ngFor="let file of files">{{file.id}} {{file.name}}</li>
+      </ul>
+       </ng-template>
+  </div>
+</div>

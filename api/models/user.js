@@ -8,7 +8,7 @@ module.exports = ({ dbs: { mainDb: mainDb, Sequelize } }) => {
     {
       tableName: 'users',
       createdAt: 'created_at',
-
+      updatedAt: false,
     },
   );
 

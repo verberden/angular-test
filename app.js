@@ -8,6 +8,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const libs = require('./libs');
 const config = require('./config');
+const formidable = require('express-formidable');
 
 const env = process.env.NODE_ENV === undefined ? 'development' : process.env.NODE_ENV;
 app.set('views', path.join(__dirname, 'web', 'views'));
@@ -15,12 +16,9 @@ app.set('view engine', 'pug');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
-
-// use JWT auth to secure the api
-app.use(libs.jwt(config.common));
+app.use(formidable());
 
 const dbs = libs.db({ env, config: config.db });
 
@@ -29,8 +27,13 @@ const apiUserService = require('./api/services/user')({
     models: apiModels,
     config,
 });
+const apiControllers = require('./api/controllers')({
+    models: apiModels,
+});
 // api routes
-// app.use('/api', require('./api/router')(router, apiModels, apiUserService));
+console.log(apiControllers);
+app.use('/api', libs.jwt(config.common));
+app.use('/api', require('./api/router')(router, apiModels, apiUserService, apiControllers));
 app.use('/client', require('./client/router')(router));
 
 // global error handler
