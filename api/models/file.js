@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 module.exports = ({ dbs: { mainDb: mainDb, Sequelize } }) => {
   const File = mainDb.define(
     'File',
@@ -6,6 +8,7 @@ module.exports = ({ dbs: { mainDb: mainDb, Sequelize } }) => {
       name: Sequelize.STRING,
       data: Sequelize.STRING,
       mime_type: Sequelize.STRING,
+      hash: Sequelize.STRING,
     },
     {
       tableName: 'files',
@@ -13,6 +16,10 @@ module.exports = ({ dbs: { mainDb: mainDb, Sequelize } }) => {
       updatedAt: false,
     },
   );
-
+  File.makeHash = function makeHash(data) {
+    const hash = crypto.createHash('sha256');
+    hash.update(data);
+    return hash.digest('hex');
+  }
   return File;
 };

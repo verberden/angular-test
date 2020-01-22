@@ -39,7 +39,6 @@ export class ChangePasswordComponent implements OnInit {
         newPassword.setErrors({notEqual: true});
         return {notEqual: true};
       } else {
-        console.log(this.f);
         if (this.f['newPassword'].errors?.notEqual) newPassword.setErrors(null);
         if (this.f['password'].errors?.notEqual) password.setErrors(null);
         return null;

@@ -13,9 +13,12 @@
         <div class="spinner-border spinner-border-sm"></div>
       </ng-template>
       <ng-template [ngIf]="files">
-        <ul>
-          <li *ngFor="let file of files">{{file.id}} {{file.name}}</li>
-      </ul>
+        <ul *ngFor="let fileDate of fileDates">
+          <p>{{fileDate}}</p>
+          <li *ngFor="let file of filesByDates[fileDate]">
+            <a href="javascript:void(0);" (click)="handleDownloadFile(file)">{{file.name}}</a>
+          </li>
+        </ul>
        </ng-template>
   </div>
 </div>

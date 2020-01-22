@@ -10,10 +10,29 @@ module.exports = ({ models }) => {
         const files = await File.findAll({
           where: {
             user_id: req.user.sub
-          }
+          },
+          order: [
+            ['created_at', 'DESC']
+          ]
         })
 
         res.status(200).json(files.length ? files: []);
+      } catch (err) {
+        next(err);
+      }
+    },
+    download: async (req, res, next) => {
+      try {
+        const file = await File.findOne({
+          where: {
+            user_id: req.user.sub,
+            id: req.params.id
+          }
+        });
+
+        if (file) {
+          res.json(file.data);
+        }
       } catch (err) {
         next(err);
       }
@@ -24,24 +43,37 @@ module.exports = ({ models }) => {
         if (req.files) {
           for (let prop in req.files) {
             const file = req.files[prop];
-            promises.push(new Promise((resolve, reject) => {
-              fs.readFile(file.path, (err, data) => {
+            promises.push(new Promise(async (resolve, reject) => {
+              await fs.readFile(file.path, async (err, data) => {
                 if (err) reject(err);
-                File.create({
-                  name: file.name,
-                  user_id: req.user.sub,
-                  mime_type: file.type,
-                  data
-                }).then((data)=> {
-                  resolve(data);
-                })
+                const hash = File.makeHash(data);
+                const existedFile = await File.findOne({
+                  where: {
+                    hash
+                  }
+                });
+                if (!existedFile) {
+                  File.create({
+                    name: file.name,
+                    user_id: req.user.sub,
+                    mime_type: file.type,
+                    data,
+                    hash
+                  }).then((data)=> {
+                    resolve(data);
+                  })
+                } else {
+                  resolve(false);
+                }
+
               });
               
             }))
           }
         }
 
-        const files = await Promise.all(promises);
+        const promiseFiles = await Promise.all(promises);
+        const files = promiseFiles.filter(el => el);
 
         res.status(200).json(files.length ? files: []);
       } catch (err) {

@@ -10,6 +10,7 @@ module.exports = (router, models, userService, controllers) => {
       .catch(err => next(err));
   });
   router.get('/files', controllers.files.showAll);
+  router.get('/files/:id', controllers.files.download);
   router.post('/files', formidable(), controllers.files.uploadAll);
 
   router.post('/user', controllers.users.create);

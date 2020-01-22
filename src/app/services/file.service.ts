@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../enviroments/environment.prod';
 import { MFile } from '../models';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class FileService {
@@ -20,5 +22,10 @@ export class FileService {
     }
     return this.http
       .post(`${environment.apiUrl}/api/files`, formData);
+  }
+
+  downloadFile(id: number): Observable<Blob> {
+    return this.http
+      .get(`${environment.apiUrl}/api/files/${id}`).pipe(map((res: any) => res.data));
   }
 }

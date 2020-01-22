@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nodemon ./app.js",
     "dev": "webpack-dev-server --hot --open",
-    "build": "webpack"
+    "build": "webpack",
+    "prod": "node ./app.js"
   },
   "author": "Novikov S.",
   "license": "ISC",
@@ -17,6 +18,7 @@
     "@angular/platform-browser": "^8.2.14",
     "@angular/platform-browser-dynamic": "^8.2.14",
     "@angular/router": "^8.2.14",
+    "@types/file-saver": "^2.0.1",
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "core-js": "^3.6.4",
@@ -25,6 +27,7 @@
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
     "express-jwt": "^5.3.1",
+    "file-saver": "^2.0.2",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.1.0",
     "pug": "^2.0.4",

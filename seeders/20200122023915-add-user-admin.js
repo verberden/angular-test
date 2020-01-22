@@ -6,7 +6,7 @@ module.exports = {
       login: 'admin',
       password: '$2b$12$4BK6ILADS28jZPZ6sO/OW.hkhfzBm1Enzj1oYqN0E1BZDeYJT8hwa',
       salt: 'evKJA',
-      createdAt : new Date(),
+      created_at : new Date(),
     }], {});
   },
 

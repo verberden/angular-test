@@ -44,7 +44,7 @@ module.exports = {
       path.resolve(__dirname, 'src'), // каталог с исходными файлами
       {} // карта маршрутов
     ),
-    new UglifyJSPlugin(),
+    // new UglifyJSPlugin(),
     new webpack.LoaderOptionsPlugin({
       htmlLoader: {
         minimize: false
