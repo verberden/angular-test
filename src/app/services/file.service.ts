@@ -24,8 +24,11 @@ export class FileService {
       .post(`${environment.apiUrl}/api/files`, formData);
   }
 
-  downloadFile(id: number): Observable<Blob> {
+  downloadFile(file: {id: number, mime_type: string}): Observable<Blob> {
     return this.http
-      .get(`${environment.apiUrl}/api/files/${id}`).pipe(map((res: any) => res.data));
+      .get(`${environment.apiUrl}/api/files/${file.id}`, {
+      responseType: "blob",
+      headers: { "Content-Type": "application/json", Accept: file.mime_type }
+    });
   }
 }

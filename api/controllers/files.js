@@ -31,7 +31,12 @@ module.exports = ({ models }) => {
         });
 
         if (file) {
-          res.json(file.data);
+          res.contentType(file.mime_type);
+          res.set("Content-Disposition", file.name);
+          res.set("Content-Transfer-Encoding", "binary");
+          console.log(file.data);
+          res.status(200);
+          res.send(file.data);
         }
       } catch (err) {
         next(err);

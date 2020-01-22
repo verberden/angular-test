@@ -60,8 +60,9 @@ export class HomeComponent {
   }
 
   handleDownloadFile(file: MFile) {
-    this.fileService.downloadFile(file.id).subscribe(
-      (data: any) => {
+    this.fileService.downloadFile(file).pipe(first()).subscribe(
+      (data: Blob) => {
+        console.log(data);
         this.downloadFile(data, file)
       },
       (error: any) => {
@@ -71,8 +72,8 @@ export class HomeComponent {
     )
   }
 
-  downloadFile(data: [], file: MFile) {
-    const blob = new Blob(data, { type: file.mime_type });
-    saveAs(blob, file.name);
+  downloadFile(data: Blob, file: MFile) {
+    // const blob = new Blob(data, { type: file.mime_type });
+    saveAs(data, file.name);
   }
 }
