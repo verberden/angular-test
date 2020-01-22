@@ -10,6 +10,7 @@ import { JwtInterceptor, ErrorInterceptor } from './libs';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { CreateUserComponent } from './create-user';
+import { ChangePasswordComponent } from './change-password';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { CreateUserComponent } from './create-user';
         AppComponent,
         HomeComponent,
         LoginComponent,
-        CreateUserComponent 
+        CreateUserComponent,
+        ChangePasswordComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

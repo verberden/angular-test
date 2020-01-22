@@ -3,6 +3,7 @@
   <div class="navbar-nav">
     <a class="nav-item nav-link" routerLink="/">Home</a>
     <a *ngIf="currenUserIsAdmin" class="nav-item nav-link" routerLink="/create">Add New User</a>
+    <a class="nav-item nav-link" routerLink="/change-password">Change Password</a>
     <a class="nav-item nav-link" (click)="logout()">Logout</a>
   </div>
 </nav>
