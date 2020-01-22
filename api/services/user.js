@@ -2,15 +2,16 @@ const jwt = require('jsonwebtoken');
 const util = require('util')
 
 module.exports = ({models, config}) => {
+  const User = models.user;
   return {
     authenticate: async ({ login, password }) => {
-      const user = await models.user.findOne({
+      const user = await User.findOne({
         where: {
-          login,
-          password
+          login
         }
       });
-      if (user) {
+
+      if (await user.validatePassword(password)) {
           const token = jwt.sign({ sub: user.id }, config.common.secret);
           const { password, ...userWithoutPassword } = user.dataValues;
           return {
@@ -23,11 +24,3 @@ module.exports = ({models, config}) => {
     }
   }
 };
-
-
-async function getAll() {
-    return users.map(u => {
-        const { password, ...userWithoutPassword } = u;
-        return userWithoutPassword;
-    });
-}

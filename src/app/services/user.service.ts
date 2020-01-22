@@ -12,6 +12,6 @@ export class UserService {
   }
 
   changePassword(oldPassword: string, password: string) {
-    return this.http.post<any>(`${environment.apiUrl}/api/user/password`, { password });
+    return this.http.post<any>(`${environment.apiUrl}/api/user/password`, { oldPassword, password });
   }
 }
